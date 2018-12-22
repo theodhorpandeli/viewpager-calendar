@@ -47,23 +47,22 @@ public class MainActivity extends AppCompatActivity {
                 moveCalendarToPage(Constants.HOME);
                 break;
             case R.id.start_from_monday:
-                CalendarApplication.get().setStartFromMonday(true);
-                startFromMondayMenuItem.setVisible(false);
-                startFromSundayMenuItem.setVisible(true);
-                monthViewPager.setAdapter(null);
-                monthViewPager.setAdapter(new MonthPagerAdapter(getSupportFragmentManager()));
-                moveCalendarToPage(selectedMonthPage);
+                toggleWeekStart(true, selectedMonthPage);
                 break;
             case R.id.start_from_sunday:
-                CalendarApplication.get().setStartFromMonday(false);
-                startFromSundayMenuItem.setVisible(false);
-                startFromMondayMenuItem.setVisible(true);
-                monthViewPager.setAdapter(null);
-                monthViewPager.setAdapter(new MonthPagerAdapter(getSupportFragmentManager()));
-                moveCalendarToPage(selectedMonthPage);
+                toggleWeekStart(false, selectedMonthPage);
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void toggleWeekStart(boolean startFromMonday, int selectedMonthPage) {
+        CalendarApplication.get().setStartFromMonday(startFromMonday);
+        startFromMondayMenuItem.setVisible(!startFromMonday);
+        startFromSundayMenuItem.setVisible(startFromMonday);
+        monthViewPager.setAdapter(null);
+        monthViewPager.setAdapter(new MonthPagerAdapter(getSupportFragmentManager()));
+        moveCalendarToPage(selectedMonthPage);
     }
 
     private void moveCalendarToPage(int position) {
