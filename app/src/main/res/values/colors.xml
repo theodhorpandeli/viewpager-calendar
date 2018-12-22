@@ -5,4 +5,6 @@
     <color name="colorAccent">#D81B60</color>
     <color name="list_divider">#e5e5e5</color>
     <color name="list_select">#FF4081</color>
+    <color name="weekend">#64383838</color>
+    <color name="light_gray">#64797979</color>
 </resources>

@@ -2,6 +2,7 @@ package com.theodhor.customcalendar.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,16 +41,16 @@ public class MonthAdapter extends BaseAdapter {
         calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
 
         /*
-        * Fixing indexes starting indexes of Week on default Start-from-sunday calendar
-        * */
+         * Fixing indexes starting indexes of Week on default Start-from-sunday calendar
+         * */
         if (firstDayOfMonth == 0 && !startFromMonday) {
             currentDay = 0;
         }
 
         /*
-        * Fixing week index on Start-from-monday calendar
-        * In case of a negative shift, we set the default start
-        * */
+         * Fixing week index on Start-from-monday calendar
+         * In case of a negative shift, we set the default start
+         * */
         if (startFromMonday) {
             firstDayOfMonth--;
             if (firstDayOfMonth == 0) {
@@ -64,8 +65,8 @@ public class MonthAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         /*
-        * Using the minimum grid size to display 4-weeks
-        * */
+         * Using the minimum grid size to display 4-weeks
+         * */
         return Constants.MAX_GRID_SIZE;
     }
 
@@ -84,17 +85,31 @@ public class MonthAdapter extends BaseAdapter {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.month_day_item, null);
         TextView dayTextView = view.findViewById(R.id.day_text_view);
+        if (getWeekendPosition(startFromMonday, position)) {
+            view.setBackground(ContextCompat.getDrawable(context,R.drawable.item_weekend));
+        } else {
+            view.setBackground(ContextCompat.getDrawable(context,R.drawable.list_selector));
+        }
         if (position >= firstDayOfMonth && currentDay <= lastDayOfMonth) {
             dayTextView.setText(String.valueOf(currentDay));
             if (currentDay == today) {
-                view.setBackground(context.getResources().getDrawable(R.drawable.item_today, null));
-                dayTextView.setTextColor(context.getResources().getColor(R.color.colorAccent, null));
+                view.setBackground(ContextCompat.getDrawable(context,R.drawable.item_today));
+                dayTextView.setTextColor(ContextCompat.getColor(context,R.color.colorAccent));
                 dayTextView.setTypeface(dayTextView.getTypeface(), Typeface.BOLD);
             }
+
             currentDay++;
         }
 
         return view;
+    }
+
+    private boolean getWeekendPosition(boolean startFromMonday, int position) {
+        if (startFromMonday) {
+            return position % 7 == 5 || position % 7 == 6;
+        } else {
+            return position % 7 == 0 || position % 7 == 6;
+        }
     }
 
     public String getCurrentMonthYear() {
