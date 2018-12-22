@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="@string/go_to_today"
+        android:id="@+id/go_to_today"/>
+    <item
+        android:id="@+id/start_from_monday"
+        android:title="@string/start_from_monday" />
+    <item
+        android:id="@+id/start_from_sunday"
+        android:title="@string/start_from_sunday" />
+</menu>
